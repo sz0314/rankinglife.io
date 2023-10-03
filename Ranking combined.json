@@ -1,0 +1,61 @@
+{
+  "data": {
+    "url": "https://raw.githubusercontent.com/sz0314/life_expansion/main/averaged_features_by_country.csv"
+  },
+  "vconcat": [
+    {
+      "mark": "bar",
+      "title": "Top 20 Countries for Life Expectancy",
+      "width": 300,
+      "height": 400,
+      "transform": [
+        {"filter": {"field": "Life_Expectancy", "valid": true}},
+        {
+          "window": [{"op": "rank", "as": "rank"}],
+          "sort": [{"field": "Life_Expectancy", "order": "descending"}]
+        },
+        {"filter": {"field": "rank", "lte": 20}}
+      ],
+      "encoding": {
+        "x": {
+          "field": "Life_Expectancy",
+          "type": "quantitative",
+          "scale": {"domain": [80, 83], "clamp": true},
+          "axis": {"title": "Life Expectancy"},
+          "title": "Life Expectancy"
+        },
+        "y": {
+          "field": "Country Name",
+          "type": "nominal",
+          "sort": {
+            "op": "mean",
+            "field": "Life_Expectancy",
+            "order": "descending"
+          },
+          "axis": {"title": "Country"}
+        }
+      }
+    },
+    {
+      "mark": "bar",
+      "title": "Life Expectancy Histogram for All Countries",
+      "width": 300,
+      "height": 300,
+      "transform": [{"filter": {"field": "Life_Expectancy", "valid": true}}],
+      "encoding": {
+        "x": {
+          "field": "Life_Expectancy",
+          "type": "quantitative",
+          "bin": {"maxbins": 20},
+          "axis": {"title": "Life Expectancy"}
+        },
+        "y": {
+          "aggregate": "count",
+          "type": "quantitative",
+          "axis": {"title": "Count"}
+        }
+      }
+    }
+  ],
+  "config": {}
+}
